@@ -108,7 +108,7 @@ func encryptAndWriteToFile(fibonacci *[]int) error {
 	// Read the inputFile line by line
 	for scanner.Scan() {
 		line := scanner.Text()
-		encryptedLine := encrypt(&line, currentLetterIndex, fibonacci)
+		encryptedLine := encrypt(&line, &currentLetterIndex, fibonacci)
 
 		// Write data to the outputFile
 		_, err = outputFile.WriteString(encryptedLine + "\n")
@@ -119,7 +119,7 @@ func encryptAndWriteToFile(fibonacci *[]int) error {
 	return nil
 }
 
-func encrypt(line *string, currentLetterIndex int, fibonacci *[]int) string {
+func encrypt(line *string, currentLetterIndex *int, fibonacci *[]int) string {
 	var sb strings.Builder
 	// go through the line char by char and shift them by the next fibonacci number
 	// we'll ignore whitespaces
@@ -130,7 +130,7 @@ func encrypt(line *string, currentLetterIndex int, fibonacci *[]int) string {
 		}
 
 		// we'll shift the character by the next fibonacci number
-		shift := (*fibonacci)[currentLetterIndex]
+		shift := (*fibonacci)[*currentLetterIndex]
 
 		// we'll shift the character by the next fibonacci number
 		shiftedRune := r + rune(shift)
@@ -141,7 +141,7 @@ func encrypt(line *string, currentLetterIndex int, fibonacci *[]int) string {
 
 		sb.WriteRune(shiftedRune)
 
-		currentLetterIndex++
+		*currentLetterIndex++
 	}
 	return sb.String()
 }
